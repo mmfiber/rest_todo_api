@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile.py
+    ports:
+      - "5000:5000"
+    volumes:
+      - "./src:/app:delegated"
+    tty: true
+    environment:
+      TZ: Asia/Tokyo
+      DB_USER: admin
+      DB_PASSWORD: admin
+      DB_HOST: db
+      DB_NAME: todo_app
+
+  db:
+    image: postgres
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+    volumes:
+      - postgres:/var/lib/postgresql/data
+volumes:
+  postgres:
